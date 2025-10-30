@@ -1,0 +1,34 @@
+<section class="planets">
+  <h3>Star Wars Planets</h3>
+
+  <div class="planets__wrapper">
+    @for (planet of planetResponse?.results; track $index) {
+    <div class="planets__card">
+      <h4>🌍 {{ planet.name }}</h4>
+      <p>Climate: {{ planet.climate }}</p>
+      @let population = planet.population !== 'unknown' ? planet.population : 0;
+      <p>Population: {{ population | number }}</p>
+      <p>Terrain: {{ planet.terrain }}</p>
+      <ul class="planets__films">
+        @for (film of planet?.filmsArray; track $index) {
+        <li>{{ film.name }}</li>
+        }
+      </ul>
+    </div>
+    }
+  </div>
+  <div class="planets__button-wrapper">
+    <button
+      (click)="getPlanets(planetResponse?.previous ?? '')"
+      [disabled]="planetResponse?.previous === null"
+    >
+      previous
+    </button>
+    <button
+      (click)="getPlanets(planetResponse?.next ?? '')"
+      [disabled]="planetResponse?.next === null"
+    >
+      next
+    </button>
+  </div>
+</section>
