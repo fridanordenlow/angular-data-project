@@ -1,15 +1,9 @@
-import {
-  Component,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  type OnInit,
-} from '@angular/core';
-import { SwapiApiService } from '../../services/swapi-api.service';
-import { Root } from '../../models/swapi.model';
+import { Component, OnDestroy, type OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { forkJoin } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
+import { Root } from '../../models/swapi.model';
+import { SwapiApiService } from '../../services/swapi-api.service';
 
 @Component({
   selector: 'app-swapi-api',

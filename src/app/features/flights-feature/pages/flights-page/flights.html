@@ -1,0 +1,40 @@
+<table>
+  <caption>
+    <div class="caption-section">
+      <span>Total flights: {{ totalItems }}</span>
+      <span>Current page: {{ page + 1 }}</span>
+      <div class="pagination-buttons">
+        <button (click)="onPrevPage()" [disabled]="!page">Prev</button>
+        <button (click)="onNextPage()">Next</button>
+      </div>
+    </div>
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Airline</th>
+      <th scope="col">Arrival airport</th>
+      <th scope="col">Arrival city</th>
+      <th scope="col">Departure airport</th>
+      <th scope="col">Departure city</th>
+      <th scope="col">Flight duration</th>
+      <th scope="col">Flight number</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (flight of flightsData; track $index) {
+
+    <tr>
+      <th scope="row">{{flight.airline_name}}</th>
+      <td>{{flight.arrival_airport}}</td>
+      <td>{{flight.arrival_city}}</td>
+      <td>{{flight.departure_airport}}</td>
+      <td>{{flight.departure_city}}</td>
+      <td>{{flight.flight_duration_hours}} hours</td>
+      <td>{{flight.flight_number}}</td>
+    </tr>
+    }
+  </tbody>
+  <tfoot>
+    <tr></tr>
+  </tfoot>
+</table>
