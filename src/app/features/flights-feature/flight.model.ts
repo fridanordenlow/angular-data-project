@@ -12,3 +12,8 @@ export interface LazyLoadReturnType {
   data: FlightData[] | null;
   total: number | undefined;
 }
+
+export interface HeaderItems {
+  label: string;
+  sortField: keyof FlightData;
+}

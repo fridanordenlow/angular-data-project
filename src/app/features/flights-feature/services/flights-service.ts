@@ -24,9 +24,37 @@ export class FlightsService {
         return of(null);
       }),
       map((data) => {
+        if (data && filter) {
+          data = data.filter((item) =>
+            Object.values(item).some((val) =>
+              val.toString().toLowerCase().includes(filter.toLowerCase())
+            )
+          );
+        }
+        if (data && sortField && sortDirection) {
+          data = data.sort((a: any, b: any) => {
+            const valA = a[sortField];
+            const valB = b[sortField];
+            // ? valA.localeCompare(valB, 'en', { sensitivity: 'base' })
+            if (typeof valA === 'string' && typeof valB === 'string') {
+              return sortDirection === 'asc'
+                ? valA.localeCompare(valB)
+                : valB.localeCompare(valA);
+            } else {
+              return sortDirection === 'asc'
+                ? valA > valB
+                  ? 1
+                  : -1
+                : valA < valB
+                ? 1
+                : -1;
+            }
+          });
+        }
         const totalItems = data?.length;
         const start = page * pageSize;
         const items = data?.slice(start, start + pageSize);
+        console.log(sortField, sortDirection);
 
         return { data: items ?? null, total: totalItems };
       })
@@ -34,6 +62,7 @@ export class FlightsService {
   }
 }
 
+// Idea about how to implement styling
 // style pagination
 // pipe for time format
 // add flight icons, departure etc font awesome

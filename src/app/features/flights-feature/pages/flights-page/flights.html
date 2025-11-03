@@ -1,3 +1,17 @@
+<div class="search-section">
+  <input
+    type="text"
+    placeholder="Search..."
+    (input)="onFilter($event.target.value)"
+  />
+</div>
+
+<!-- <select id="airline" name="airline">
+  @for (flight of flightsData; track $index) {
+  <option [value]="flight.airline_name" (click)="onFilter()">{{flight.airline_name}}</option>
+  }
+</select> -->
+
 <table>
   <caption>
     <div class="caption-section">
@@ -11,18 +25,15 @@
   </caption>
   <thead>
     <tr>
-      <th scope="col">Airline</th>
-      <th scope="col">Arrival airport</th>
-      <th scope="col">Arrival city</th>
-      <th scope="col">Departure airport</th>
-      <th scope="col">Departure city</th>
-      <th scope="col">Flight duration</th>
-      <th scope="col">Flight number</th>
+      @for (headerItem of headerItems; track $index) {
+      <th scope="col" (click)="onSort(headerItem.sortField)">
+        {{headerItem.label}} <fa-icon [icon]="faSort" />
+      </th>
+      }
     </tr>
   </thead>
   <tbody>
     @for (flight of flightsData; track $index) {
-
     <tr>
       <th scope="row">{{flight.airline_name}}</th>
       <td>{{flight.arrival_airport}}</td>
