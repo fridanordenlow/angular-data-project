@@ -1,20 +1,20 @@
 <div class="app">
   <header>
-    <section>
+    <span class="title-wrapper">
       <h1>Flights Application</h1>
-    </section>
+      <fa-icon [icon]="faPlane" />
+    </span>
     <nav>
-      <ul>
-        <li><a [routerLink]="'/'">Home</a></li>
-        <li><a [routerLink]="'flights'">Flights</a></li>
-      </ul>
+      <a [routerLink]="'/'">Home</a>
+      <a [routerLink]="'flights'">Flights</a>
     </nav>
   </header>
 
   <main>
-    <h2>Flight info</h2>
     <router-outlet></router-outlet>
   </main>
 
-  <footer><p>This is a footer</p></footer>
+  <footer>
+    <p>This is a footer</p>
+  </footer>
 </div>
