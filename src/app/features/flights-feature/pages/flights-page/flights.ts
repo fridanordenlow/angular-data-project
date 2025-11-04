@@ -1,10 +1,16 @@
 import { Component, type OnInit } from '@angular/core';
-import { FlightsService } from '../../services/flights-service';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { FlightData, HeaderItems } from '../../flight.model';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSort, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+// import { debounceTime, Subject } from 'rxjs';
+import { FlightsService } from '../../services/flights-service';
+import {
+  FlightData,
+  FlightFilterKey,
+  FlightFilters,
+  HeaderItems,
+} from '../../flight.model';
 
 @Component({
   selector: 'app-flights',
@@ -21,22 +27,30 @@ export class Flights implements OnInit {
   pageSize = 20;
   sortField: keyof FlightData | '' = '';
   sortDirection: 'asc' | 'desc' | '' = '';
-  filter = '';
+  // filter = '';
+  filters: FlightFilters = {
+    airline_name: '',
+    arrival_airport: '',
+    arrival_city: '',
+    departure_airport: '',
+    departure_city: '',
+  };
 
+  faMagnifyingGlass = faMagnifyingGlass;
   faSort = faSort;
+
+  filterItems: { key: FlightFilterKey; label: string }[] = [
+    { key: 'airline_name', label: 'Airline' },
+    { key: 'departure_airport', label: 'Departure airport' },
+    { key: 'departure_city', label: 'Departure city' },
+    { key: 'arrival_airport', label: 'Arrival airport' },
+    { key: 'arrival_city', label: 'Arrival city' },
+  ];
 
   headerItems: HeaderItems[] = [
     {
       label: 'Airline',
       sortField: 'airline_name',
-    },
-    {
-      label: 'Arrival airport',
-      sortField: 'arrival_airport',
-    },
-    {
-      label: 'Arrival city',
-      sortField: 'arrival_city',
     },
     {
       label: 'Departure airport',
@@ -45,6 +59,14 @@ export class Flights implements OnInit {
     {
       label: 'Departure city',
       sortField: 'departure_city',
+    },
+    {
+      label: 'Arrival airport',
+      sortField: 'arrival_airport',
+    },
+    {
+      label: 'Arrival city',
+      sortField: 'arrival_city',
     },
     {
       label: 'Flight duration',
@@ -60,18 +82,26 @@ export class Flights implements OnInit {
     this.title.setTitle('Flights page');
   }
 
+  // private filterSubject = new Subject<string>();
+  // private filterSubject = new Subject<void>();
+
   ngOnInit(): void {
-    this.getFlights();
+    this.loadFlights();
+
+    // this.filterSubject.pipe(debounceTime(500)).subscribe(() => {
+    //   this.page = 0;
+    //   this.loadFlights();
+    // });
   }
 
-  getFlights() {
+  loadFlights() {
     this.flightService
       .getFlightsInfo(
         this.page,
         this.pageSize,
         this.sortField,
         this.sortDirection,
-        this.filter
+        this.filters
       )
       .subscribe({
         next: (res) => {
@@ -84,14 +114,14 @@ export class Flights implements OnInit {
   onNextPage() {
     if ((this.page + 1) * this.pageSize < this.totalItems) {
       this.page++;
-      this.getFlights();
+      this.loadFlights();
     }
   }
 
   onPrevPage() {
     if (this.page > 0) {
       this.page--;
-      this.getFlights();
+      this.loadFlights();
     }
   }
 
@@ -102,12 +132,43 @@ export class Flights implements OnInit {
       this.sortField = field;
       this.sortDirection = 'asc';
     }
-    this.getFlights();
+    this.loadFlights();
   }
 
-  onFilter(value: string) {
-    this.filter = value;
+  onFilter(field: keyof typeof this.filters, inputVal: string) {
+    this.filters[field] = inputVal; // Ex. this.filters.arrival_city = "Stockholm".
+    // this.filterSubject.next();
+  }
+
+  applyFilters() {
+    for (const key in this.filters) {
+      if (!this.filters[key as keyof FlightFilters]?.trim()) {
+        this.filters[key as keyof FlightFilters] = '';
+      }
+    }
+    console.log('Applied filters', this.filters);
+
     this.page = 0;
-    this.getFlights();
+    this.loadFlights();
+  }
+
+  clearFilters() {
+    this.filters = {
+      airline_name: '',
+      arrival_airport: '',
+      arrival_city: '',
+      departure_airport: '',
+      departure_city: '',
+    };
+
+    this.page = 0;
+    this.loadFlights();
+  }
+  // onFilter(value: string) {
+  //   this.filterSubject.next(value);
+  // }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.pageSize);
   }
 }

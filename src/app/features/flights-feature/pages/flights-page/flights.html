@@ -1,51 +1,85 @@
-<div class="search-section">
-  <input
-    type="text"
-    placeholder="Search..."
-    (input)="onFilter($event.target.value)"
-  />
-</div>
+<section class="search-section">
+  <h2>Search flights</h2>
 
-<!-- <select id="airline" name="airline">
+  <!-- <label for="for flight"
+      >Search for flight
+      <input
+        type="text"
+        placeholder="Search..."
+        (input)="onFilter($event.target.value)"
+    /></label> -->
+
+  <div class="filter-section">
+    @for (item of filterItems; track $index) {
+    <label
+      >{{item.label}}
+      <input
+        type="text"
+        [value]="filters[item.key]"
+        (input)="onFilter(item.key, $event.target.value)"
+        (keyup.enter)="applyFilters()"
+      />
+    </label>
+    }
+
+    <button (click)="applyFilters()">
+      Search <fa-icon [icon]="faMagnifyingGlass" />
+    </button>
+    <button type="button" (click)="clearFilters()">Clear filters</button>
+  </div>
+
+  <div>
+    @if (flightsData?.length === 0) {
+    <p>No flights found for your search.</p>
+    }
+  </div>
+
+  <table>
+    <caption>
+      <div class="caption-section">
+        <span>Total results: {{ totalItems }}</span>
+        <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+
+        <!-- <span>Current page: {{ page + 1 }}</span> -->
+        <div class="pagination-buttons">
+          <button (click)="onPrevPage()" [disabled]="!page">Prev</button>
+          <button (click)="onNextPage()" [disabled]="page + 1 >= totalPages">
+            Next
+          </button>
+        </div>
+      </div>
+    </caption>
+    <thead>
+      <tr>
+        @for (headerItem of headerItems; track $index) {
+        <th scope="col" (click)="onSort(headerItem.sortField)">
+          {{headerItem.label}} <fa-icon [icon]="faSort" />
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (flight of flightsData; track $index) {
+      <tr>
+        <th scope="row">{{flight.airline_name}}</th>
+        <td>{{flight.departure_airport}}</td>
+        <td>{{flight.departure_city}}</td>
+        <td>{{flight.arrival_airport}}</td>
+        <td>{{flight.arrival_city}}</td>
+        <td>{{flight.flight_duration_hours}} hours</td>
+        <td>{{flight.flight_number}}</td>
+      </tr>
+      }
+    </tbody>
+    <tfoot>
+      <tr></tr>
+    </tfoot>
+  </table>
+</section>
+
+<!-- <select id="airline" name="airline" (change)="onFilter($event)">
+  <option value="">All airlines</option>
   @for (flight of flightsData; track $index) {
-  <option [value]="flight.airline_name" (click)="onFilter()">{{flight.airline_name}}</option>
+  <option [value]="flight.airline_name">{{flight.airline_name}}</option>
   }
 </select> -->
-
-<table>
-  <caption>
-    <div class="caption-section">
-      <span>Total flights: {{ totalItems }}</span>
-      <span>Current page: {{ page + 1 }}</span>
-      <div class="pagination-buttons">
-        <button (click)="onPrevPage()" [disabled]="!page">Prev</button>
-        <button (click)="onNextPage()">Next</button>
-      </div>
-    </div>
-  </caption>
-  <thead>
-    <tr>
-      @for (headerItem of headerItems; track $index) {
-      <th scope="col" (click)="onSort(headerItem.sortField)">
-        {{headerItem.label}} <fa-icon [icon]="faSort" />
-      </th>
-      }
-    </tr>
-  </thead>
-  <tbody>
-    @for (flight of flightsData; track $index) {
-    <tr>
-      <th scope="row">{{flight.airline_name}}</th>
-      <td>{{flight.arrival_airport}}</td>
-      <td>{{flight.arrival_city}}</td>
-      <td>{{flight.departure_airport}}</td>
-      <td>{{flight.departure_city}}</td>
-      <td>{{flight.flight_duration_hours}} hours</td>
-      <td>{{flight.flight_number}}</td>
-    </tr>
-    }
-  </tbody>
-  <tfoot>
-    <tr></tr>
-  </tfoot>
-</table>

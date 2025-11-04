@@ -49,3 +49,33 @@ tfoot td {
 .search-section {
   margin-bottom: 2rem;
 }
+
+.filter-section {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    color: #333;
+
+    input {
+      margin-top: 0.25rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  }
+
+  button {
+    width: 100px;
+    height: 33px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}

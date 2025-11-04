@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
-import { FlightData, LazyLoadReturnType } from '../flight.model';
+import { FlightData, FlightFilters, LazyLoadReturnType } from '../flight.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,8 @@ export class FlightsService {
     pageSize: number,
     sortField: string,
     sortDirection: string,
-    filter: string
+    filters: FlightFilters
+    // filter: string
   ): Observable<LazyLoadReturnType> {
     return this.http.get<FlightData[] | null>(this.dataUrl).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -24,13 +25,28 @@ export class FlightsService {
         return of(null);
       }),
       map((data) => {
-        if (data && filter) {
-          data = data.filter((item) =>
-            Object.values(item).some((val) =>
-              val.toString().toLowerCase().includes(filter.toLowerCase())
-            )
-          );
+        if (data) {
+          // Ex. key = "airline_name", value = "SAS"
+          for (const [key, value] of Object.entries(filters)) {
+            if (value.trim() !== '') {
+              const searchVal = value.trim().toLowerCase();
+              data = data.filter((item) =>
+                (item as any)[key]
+                  .trim()
+                  .toString()
+                  .toLowerCase()
+                  .includes(searchVal)
+              );
+            }
+          }
         }
+        // if (data && filter) {
+        //   data = data.filter((item) =>
+        //     Object.values(item).some((val) =>
+        //       val.toString().toLowerCase().includes(filter.toLowerCase())
+        //     )
+        //   );
+        // }
         if (data && sortField && sortDirection) {
           data = data.sort((a: any, b: any) => {
             const valA = a[sortField];
@@ -67,3 +83,17 @@ export class FlightsService {
 // pipe for time format
 // add flight icons, departure etc font awesome
 // group data by airline charts etc
+
+// src/
+// └── app/
+//     └── features/
+//         └── flights-feature/
+//             ├── flights/
+//             │   ├── flights.ts
+//             │   ├── flights.html
+//             │   └── flights.scss
+//             ├── services/
+//             │   ├── flights.service.ts        ← API-hantering (den jag har)
+//             │   └── flights-store.service.ts  ← State & logik (ny)
+//             └── models/
+//                 └── flight.model.ts
