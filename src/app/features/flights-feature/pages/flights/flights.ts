@@ -10,7 +10,7 @@ import {
   FlightFilterKey,
   FlightFilters,
   HeaderItems,
-} from '../../flight.model';
+} from '../../models/flight.model';
 
 @Component({
   selector: 'app-flights',

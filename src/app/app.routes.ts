@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './home/home-page';
-import { Flights } from './features/flights-feature/pages/flights-page/flights';
+import { Flights } from './features/flights-feature/pages/flights/flights';
 
 export const routes: Routes = [
   { path: '', component: Home, pathMatch: 'full', title: 'Home page' },

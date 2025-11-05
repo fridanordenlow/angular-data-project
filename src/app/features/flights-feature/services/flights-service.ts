@@ -1,7 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
-import { FlightData, FlightFilters, LazyLoadReturnType } from '../flight.model';
+import {
+  FlightData,
+  FlightFilters,
+  LazyLoadReturnType,
+} from '../models/flight.model';
 
 @Injectable({
   providedIn: 'root',
@@ -79,7 +83,6 @@ export class FlightsService {
 }
 
 // Idea about how to implement styling
-// style pagination
 // pipe for time format
 // add flight icons, departure etc font awesome
 // group data by airline charts etc
