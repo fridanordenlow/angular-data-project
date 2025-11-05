@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSort, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 // import { debounceTime, Subject } from 'rxjs';
-import { FlightsService } from '../../services/flights-service';
+import { FlightsService } from '../../services/flights.service';
 import {
   FlightData,
   FlightFilterKey,
@@ -78,6 +78,7 @@ export class Flights implements OnInit {
     },
   ];
 
+  // Change to new inject()-way?
   constructor(private title: Title, private flightService: FlightsService) {
     this.title.setTitle('Flights page');
   }

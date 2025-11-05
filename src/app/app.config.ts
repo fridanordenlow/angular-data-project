@@ -3,7 +3,7 @@ import { provideRouter, withDebugTracing } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { FlightsService } from './features/flights-feature/services/flights-service';
+import { FlightsService } from './features/flights-feature/services/flights.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
