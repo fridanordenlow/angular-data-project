@@ -1,9 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import {
-  FlightData,
-  FlightFilterKey,
-  FlightFilters,
-} from '../models/flight.model';
+import { FlightData, FlightFilterKey, FlightFilters } from './flight.model';
 import { FlightsService } from './flights.service';
 
 @Injectable({

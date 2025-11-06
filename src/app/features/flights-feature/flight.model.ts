@@ -8,16 +8,6 @@ export interface FlightData {
   flight_number: string;
 }
 
-export interface LazyLoadReturnType {
-  data: FlightData[] | null;
-  total: number | undefined;
-}
-
-export interface HeaderItems {
-  label: string;
-  sortField: keyof FlightData;
-}
-
 export interface FlightFilters {
   airline_name: string;
   arrival_airport: string;
@@ -27,3 +17,13 @@ export interface FlightFilters {
 }
 
 export type FlightFilterKey = keyof FlightFilters;
+
+export interface HeaderItems {
+  label: string;
+  sortField: keyof FlightData;
+}
+
+// export interface LazyLoadReturnType {
+//   data: FlightData[] | null;
+//   total: number | undefined;
+// }

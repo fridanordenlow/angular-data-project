@@ -1,11 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, tap } from 'rxjs';
-import {
-  FlightData,
-  FlightFilters,
-  LazyLoadReturnType,
-} from '../models/flight.model';
+import { catchError, Observable, of } from 'rxjs';
+import { FlightData } from './flight.model';
 
 @Injectable({
   providedIn: 'root',

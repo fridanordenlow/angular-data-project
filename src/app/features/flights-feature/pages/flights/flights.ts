@@ -4,13 +4,9 @@ import { Title } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSort, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 // import { debounceTime, Subject } from 'rxjs';
-import { FlightsService } from '../../services/flights.service';
-import { FlightsStore } from '../../services/flights-store.service';
-import {
-  FlightData,
-  FlightFilterKey,
-  HeaderItems,
-} from '../../models/flight.model';
+import { FlightsService } from '../../flights.service';
+import { FlightsStore } from '../../flights.store';
+import { FlightData, FlightFilterKey, HeaderItems } from '../../flight.model';
 
 @Component({
   selector: 'app-flights',
